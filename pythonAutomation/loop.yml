@@ -42,4 +42,19 @@
         state: started
         enabled: yes
       when: ansible_os_family == "Debian"
-      
+    
+    - name: Add groups
+      groups:
+        name: devops
+        state: present
+
+    - name: Add users
+      user:
+        name: "{{item}}"
+        state: present
+        groups: devops
+      loop:
+        - milan
+        - neupane
+        - user1
+
