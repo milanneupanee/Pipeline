@@ -1,0 +1,28 @@
+---
+hosts: all
+tasks:
+  - name: Bnner file
+    copy:
+      content: "Hello just trying to copy in {{ansible_distribution}}"
+      dest: /etc/motd
+    notify:
+      - Restart the ntp server
+    
+
+  - name: dir for devops
+    file: 
+      path: /opt/devdata
+      state: directory
+      mode:  0775
+
+      #handler example it get execute at the end of the play book
+handlers:
+  - name: Restart the ntp server
+    servive: 
+      name: ntpd
+      state: restarted
+      enabled: yes
+    when: ansible_os_family == "Redhat"
+
+
+  
