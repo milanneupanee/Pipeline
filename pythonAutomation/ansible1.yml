@@ -1,0 +1,35 @@
+# # follow the documentation for the installation of the ansible
+# # there is the control node which will control the other node
+# # allow the ec2 instance on port 22 from the control node
+# # approach is to launch the package from the control node(ec2 instance) to ec2 instances(multiple)
+
+# #inverteroy and ping
+# #first copy the key in the working directory
+
+# vim inventory #ipaddr private ip of the instances
+# web01 ansible_host=ipaddr ansible_user=centos ansible_ssh_private_key_file=abc.pem
+# web02 ansible_host=ipaddr ansible_user=centos ansible_ssh_private_key_file=abc.pem
+# web03 ansible_host=ipaddr ansible_user=centos ansible_ssh_private_key_file=abc.pem
+
+# #to ping the system
+# ansible -i inventory(it is the file we just created it can be other name) -m ping web01
+# #it will be inintaractive so lets change the config file of the ansible
+# sudo vim/etc/ansible/ansible.cfg 
+# change host_key_checking=False(un comment garda hunxa line 71)
+# #then check ping 
+# it will return success message in json format
+
+# #creating the groups in inventory
+# [webserver]
+# web01
+# web02
+
+# [extrawebserver]
+# web03
+
+# [allnode:children]
+# webserver
+# extrawebserver
+
+# If we mention all in the command it will do for all the nodes in the inventory
+# or '*' will also do the same
